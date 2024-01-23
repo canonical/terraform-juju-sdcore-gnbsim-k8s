@@ -1,0 +1,6 @@
+model_name ="test3"
+channel ="1.3/edge"
+db_application_name ="mongodb-k8s"
+certs_application_name ="self-signed-certificates"
+nrf_application_name ="nrf"
+amf_application_name ="amf"
