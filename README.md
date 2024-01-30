@@ -4,7 +4,7 @@ This SD-Core GNBSIM K8s Terraform module aims to deploy the [sdcore-gnbsim-k8s c
 
 ## Getting Started
 
-### Install requirements
+### Prerequisites
 
 The following software and tools needs to be installed and should be running in the local environment.
 
@@ -12,42 +12,20 @@ The following software and tools needs to be installed and should be running in 
 - `juju 3.x`
 - `terrafom`
 
-Install Microk8s:
+### Deploy sdcore-gnbsim-k8s using Terraform
 
-```console
-sudo snap install microk8s --channel=1.27-strict/stable
-sudo usermod -a -G snap_microk8s $USER
-newgrp snap_microk8s
-```
-
-Enable `storage`, `multus` and `metallb` plugins for Microk8s.
+Make sure that `storage`, `multus` and `metallb` plugins are enabled for Microk8s:
 
 ```console
 sudo microk8s enable hostpath-storage multus
 sudo microk8s enable metallb:10.0.0.2-10.0.0.4
 ```
 
-Install Juju:
+Add a Juju model:
 
 ```console
-sudo snap install juju --channel=3.1/stable
+juju add model <model-name>
 ```
-
-Install Terraform:
-
-```console
-sudo snap install --classic terraform
-```
-
-### Bootstrap the Juju using Microk8s and create a model to deploy Terraform module
-
-Bootstrap Juju Controller:
-
-```console
-juju bootstrap microk8s
-```
-
-### Deploy Mongodb-k8s using Terraform
 
 Initialise the provider:
 
@@ -57,28 +35,23 @@ terraform init
 
 Customize the configuration inputs under `terraform.tfvars` file according to requirement.
 
-Sample contents of `terraform.tfvars` file:
+Replace the `model-name` and `amf-application-name` in the `terraform.tfvars` file:
 
 ```yaml
-model_name ="test"
-amf_application_name ="amf"
+model_name =<your model-name>
+amf_application_name =<your nrf app name>
 ```
 
-Run Terraform plan by providing a var-file:
+Run Terraform Plan by providing var-file:
 
 ```console
 terraform plan -var-file="terraform.tfvars" 
 ```
 
-Deploy the resources, skip the approval.
+Deploy the resources, skip the approval:
 
 ```console
 terraform apply -auto-approve 
-```
-
-```{note}
-After running above command, if you get the error below, run the `terraform apply -auto-approve` again. 
-`Unable to create application, got error: model "<model_name>" not found`
 ```
 
 ### Check the Output
@@ -87,12 +60,6 @@ Run `juju switch <juju model>` to switch to the target Juju model and observe th
 
 ```console
 juju status --relations
-```
-
-The output should be similar to the following:
-
-```console
-
 ```
 
 ### Clean up 

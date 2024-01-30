@@ -13,7 +13,7 @@ variable "channel" {
 variable "amf_application_name" {
   description = "The name of the AMF application."
   type        = string
-  default     = "amf"
+  default     = ""
 }
 
 

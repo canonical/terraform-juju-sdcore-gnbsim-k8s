@@ -1,9 +1,9 @@
 resource "juju_application" "gnbsim" {
-  name = "gnbsim"
+  name  = "gnbsim"
   model = var.model_name
 
   charm {
-    name = "sdcore-gnbsim-k8s"
+    name    = "sdcore-gnbsim-k8s"
     channel = var.channel
   }
 
